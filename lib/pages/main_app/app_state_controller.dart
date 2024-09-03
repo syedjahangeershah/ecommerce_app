@@ -1,23 +1,22 @@
-import 'package:assessment/pages/products/products_view.dart';
-import 'package:assessment/pages/products/products_view_binding.dart';
-import 'package:assessment/pages/wish_list/wish_list_view.dart';
+import 'package:assessment/app/models/product_model.dart';
+import 'package:assessment/app/service_repositories/storage_service/storage_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AppState extends GetxController{
+
+  final storageService = StorageService();
+
   late final PageController pageController;
 
-  int currentPage = 0;
+  final currentPage = 0.obs;
 
-  final pages = [
-    const ProductsView(),
-    const WishListView(),
-  ];
-
+  final productsList = <ProductModel>[].obs;
+  final wishList = <ProductModel>[].obs;
 
   @override
   void onInit() {
-    pageController = PageController(initialPage: currentPage);
+    pageController = PageController(initialPage: currentPage.value);
     super.onInit();
   }
 
@@ -28,7 +27,7 @@ class AppState extends GetxController{
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeIn,
       );
-      currentPage = index;
+      currentPage.value = index;
     }
   }
 }

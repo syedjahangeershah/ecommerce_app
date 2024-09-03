@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class WishListComponent extends StatelessWidget {
-  const WishListComponent({super.key, required this.onTap, this.color});
+  const WishListComponent({
+    super.key,
+    required this.onTap,
+    required this.favorite,
+  });
+
   final void Function() onTap;
-  final Color? color;
+  final bool favorite;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class WishListComponent extends StatelessWidget {
           border: Border.all(width: .8, color: Colors.black),
         ),
         child: Center(
-          child: Icon(Icons.favorite, color: color),
+          child: Icon(favorite ? Icons.favorite : Icons.favorite_border),
         ),
       ),
     );

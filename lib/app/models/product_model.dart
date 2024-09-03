@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ProductModel {
   int? id;
   String? title;
@@ -6,13 +8,19 @@ class ProductModel {
   String? description;
   String? image;
 
-  ProductModel(
-      {this.id,
-        this.title,
-        this.price,
-        this.category,
-        this.description,
-        this.image});
+  // These variables are being used within the app (not related to API)
+  final qty = 0.obs;
+  bool addedToCart = false;
+  bool addedToWishList = false;
+
+  ProductModel({
+    this.id,
+    this.title,
+    this.price,
+    this.category,
+    this.description,
+    this.image,
+  });
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -21,6 +29,10 @@ class ProductModel {
     category = json['category'];
     description = json['description'];
     image = json['image'];
+    qty.value = json['qty'] ?? 0;
+    addedToCart = json['addedToCart'] ?? false;
+    addedToWishList = json['addedToWishList'] ?? false;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +43,9 @@ class ProductModel {
     data['category'] = category;
     data['description'] = description;
     data['image'] = image;
+    data['addedToCart'] = addedToCart;
+    data['qty'] = qty.value;
+    data['addedToWishList'] = addedToWishList;
     return data;
   }
 }

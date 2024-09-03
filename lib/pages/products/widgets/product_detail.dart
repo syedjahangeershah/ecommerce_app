@@ -1,24 +1,69 @@
+import 'package:assessment/app/constants/app_color.dart';
 import 'package:assessment/app/models/product_model.dart';
+import 'package:assessment/app/utils/components/custom_button.dart';
 import 'package:assessment/app/utils/components/wish_list_component.dart';
+import 'package:assessment/app/utils/functions/toggleFavorite.dart';
+import 'package:assessment/pages/cart/cart_view.dart';
 import 'package:assessment/pages/products/products_view_controller.dart';
-import 'package:assessment/pages/products/widgets/products_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetail extends StatelessWidget {
-  ProductDetail({super.key, required this.product});
+  const ProductDetail({super.key, required this.product});
 
   final ProductModel product;
-  final controller = Get.find<ProductsViewController>();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<ProductsViewController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
         forceMaterialTransparency: true,
+      ),
+      bottomNavigationBar: Container(
+        height: 75,
+        width: double.infinity,
+        color: Colors.white,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Tooltip(
+                message: 'View Cart',
+                child: IconButton(
+                  onPressed: () => Get.to(() => const CartView()),
+                  icon: Obx(() {
+                    return Badge.count(
+                      count: controller.totalCartItems.value,
+                      child: const Icon(Icons.shopping_cart_sharp),
+                    );
+                  }),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: CustomButton(
+                  onPressed: () {
+                    controller.cartSheet(product, context);
+                  },
+                  color: AppColors.black,
+                  height: 55,
+                  radius: 30,
+                  child: const Text(
+                    'Add to cart',
+                    style: TextStyle(color: AppColors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -39,9 +84,23 @@ class ProductDetail extends StatelessWidget {
                   Positioned(
                     right: 20,
                     top: 10,
-                    child: WishListComponent(
-                      onTap: () {},
-                    ),
+                    child: Obx(() {
+                      final item =
+                          controller.appState.productsList.firstWhere(
+                        (p) => p.id == product.id,
+                      );
+                      return WishListComponent(
+                        favorite: item.addedToWishList,
+                        onTap: () {
+                          toggleFavorite(
+                            item,
+                            controller.appState.wishList,
+                            controller.appState.storageService
+                          );
+                          controller.appState.productsList.refresh();
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -99,27 +158,11 @@ class ProductDetail extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
+                    lessStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Gap(20),
-                  const Text(
-                    'Related Products:',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  const Gap(20),
-                  Obx(() {
-                    return controller.gettingRelatedProducts.value
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : controller.relatedProductsError.value.isNotEmpty
-                            ? Center(
-                                child:
-                                    Text(controller.relatedProductsError.value))
-                            : ProductsGrid(
-                                products: controller.relatedProducts,
-                                allowScrolling: false,
-                              );
-                  }),
                 ],
               ),
             )

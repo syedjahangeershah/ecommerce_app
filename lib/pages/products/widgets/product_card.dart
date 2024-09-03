@@ -6,14 +6,21 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard({
+    super.key,
+    required this.product,
+    required this.addToWishList,
+  });
 
   final ProductModel product;
+  final void Function() addToWishList;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetail(product: product)),
+      onTap: () {
+        Get.to(() => ProductDetail(product: product));
+      },
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -46,7 +53,8 @@ class ProductCard extends StatelessWidget {
                     right: 10,
                     top: 10,
                     child: WishListComponent(
-                      onTap: () {},
+                      favorite: product.addedToWishList,
+                      onTap: addToWishList,
                     ),
                   ),
                 ],

@@ -1,4 +1,6 @@
 import 'package:assessment/pages/main_app/app_state_controller.dart';
+import 'package:assessment/pages/products/products_view.dart';
+import 'package:assessment/pages/wish_list/wish_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +15,11 @@ class MainApp extends GetView<AppState> {
           Positioned.fill(
             child: PageView(
               controller: controller.pageController,
-              children: controller.pages,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                const ProductsView(),
+                WishListView(appState: controller),
+              ],
             ),
           ),
           Align(
@@ -40,17 +46,25 @@ class MainApp extends GetView<AppState> {
                   children: [
                     GestureDetector(
                       onTap: () => controller.changePage(0, context),
-                      child: const Icon(
-                        Icons.home,
-                        size: 40,
-                      ),
+                      child: Obx(() {
+                        return Icon(
+                          controller.currentPage.value == 0
+                              ? Icons.home
+                              : Icons.home_outlined,
+                          size: 40,
+                        );
+                      }),
                     ),
                     GestureDetector(
                       onTap: () => controller.changePage(1, context),
-                      child: const Icon(
-                        Icons.favorite,
-                        size: 40,
-                      ),
+                      child: Obx(() {
+                        return Icon(
+                          controller.currentPage.value == 1
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: 40,
+                        );
+                      }),
                     ),
                   ],
                 ),

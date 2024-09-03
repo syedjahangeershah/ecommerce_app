@@ -65,7 +65,7 @@ class ApiClient {
 
       await ConnectivityCheck().ensureConnectivity();
 
-      debugPrint('GET uri: $uri');
+      debugPrint('POST uri: $uri');
       debugPrint('headers: $headers');
       debugPrint('sending body: $body');
 

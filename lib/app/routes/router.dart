@@ -3,7 +3,6 @@ import 'package:assessment/pages/main_app/app_state_binding.dart';
 import 'package:assessment/pages/main_app/main_app_view.dart';
 import 'package:assessment/pages/products/products_view.dart';
 import 'package:assessment/pages/products/products_view_binding.dart';
-import 'package:assessment/pages/products/products_view_controller.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
