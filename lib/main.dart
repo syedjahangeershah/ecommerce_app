@@ -1,4 +1,7 @@
 import 'package:assessment/app/routes/router.dart';
+import 'package:assessment/app/routes/routes.dart';
+import 'package:assessment/app/service_repositories/storage_service/storage_service.dart';
+import 'package:assessment/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,9 +14,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of my application.
   @override
   Widget build(BuildContext context) {
+    final storageService = StorageService();
     return GetMaterialApp(
       title: 'PieCyfer Assessment',
       debugShowCheckedModeBanner: false,
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.initial,
+      home: const SplashPage(),
     );
   }
 }

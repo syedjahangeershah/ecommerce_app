@@ -13,38 +13,39 @@ class WishListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wish List"),
+        title: const Text("Categories"),
         forceMaterialTransparency: true,
         elevation: 1,
       ),
-      body: Obx(() {
-        return GridView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            mainAxisExtent: 205,
-            maxCrossAxisExtent: 300,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Wrap(
+            runSpacing: 10,
+            spacing: 10,
+            children: [
+              ...List.generate(
+                12,
+                (index) => Column(
+                  children: [
+                    Container(
+                      width: (context.width - 50) * .25,
+                      height: (context.width - 50) * .25,
+                      decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SizedBox(
+                      width: (context.width - 50) * .25,
+                      child: Center(child: Text('Category $index')),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-          padding: const EdgeInsets.all(10),
-          itemCount: appState.wishList.length,
-          itemBuilder: (context, index) {
-            final product = appState.wishList[index];
-            return ProductCard(
-              product: product,
-              addToWishList: () {
-                toggleFavorite(
-                  product,
-                  appState.wishList,
-                  appState.storageService,
-                );
-                appState.wishList.refresh();
-              },
-            );
-          },
-        );
-      }),
+        ),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:assessment/app/components/drawer.dart';
 import 'package:assessment/app/constants/app_color.dart';
 import 'package:assessment/app/utils/functions/toggleFavorite.dart';
 import 'package:assessment/app/utils/shimmers/product_card_shimmer.dart';
@@ -10,11 +11,18 @@ import 'package:get/get.dart';
 
 class ProductsView extends GetView<ProductsViewController> {
   const ProductsView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: controller.scaffoldKey,
+      drawer: const AppDrawer(),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            controller.scaffoldKey.currentState!.openDrawer();
+          },
+          icon: const Icon(Icons.menu),
+        ),
         title: const Text("E-Commerce Store"),
         forceMaterialTransparency: true,
         actions: [

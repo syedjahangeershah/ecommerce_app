@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 class ProductsViewController extends GetxController {
   final appState = Get.find<AppState>();
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   final gettingProducts = false.obs;
   final loadingMore = false.obs;
   final addingToCart = false.obs;

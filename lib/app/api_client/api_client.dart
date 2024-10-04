@@ -13,7 +13,7 @@ class ApiClient {
     debugPrint('dio private called');
     dio = Dio(
       BaseOptions(
-        baseUrl: AppConstants.baseUrl,
+        baseUrl: AppConstants.apiUrl,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
       ),
